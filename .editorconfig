@@ -1,0 +1,5 @@
+root = true
+
+[*.cs]
+index_style = spaces
+indent_size = 4
