@@ -13,6 +13,8 @@
 script = ExtResource( 1 )
 
 [node name="Collision" type="RigidBody" parent="."]
+collision_layer = 2
+collision_mask = 3
 physics_material_override = SubResource( 3 )
 script = ExtResource( 2 )
 
@@ -24,5 +26,11 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Collision"]
 shape = SubResource( 2 )
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.994, -4.93857 )
+[node name="SpringArm" type="SpringArm" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19643, -4.59235 )
+spring_length = 3.475
+margin = 4.989
+
+[node name="Camera" type="Camera" parent="SpringArm"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.0744496, -0.189589 )
+far = 367.5
