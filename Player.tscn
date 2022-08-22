@@ -29,7 +29,6 @@ shape = SubResource( 2 )
 [node name="SpringArm" type="SpringArm" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, -2.29346e-08, 0.964975, 0.262341, 8.43608e-08, 0.262341, -0.964975, 0, 1.196, 0 )
 spring_length = 3.475
-margin = 4.989
 
 [node name="Camera" type="Camera" parent="SpringArm"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0744496, -0.189589 )

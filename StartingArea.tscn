@@ -5,7 +5,7 @@
 
 [sub_resource type="CubeMesh" id=1]
 
-[sub_resource type="ConvexPolygonShape" id=2]
+[sub_resource type="ConvexPolygonShape" id=4]
 points = PoolVector3Array( 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1 )
 
 [sub_resource type="ConcavePolygonShape" id=3]
@@ -14,30 +14,26 @@ data = PoolVector3Array( -9.4577, -1, 80.5152, -9.4577, 11.9167, 75.4723, -9.457
 [node name="Starting Area" type="Spatial"]
 script = ExtResource( 2 )
 
-[node name="Flat" type="Spatial" parent="."]
+[node name="Flat" type="StaticBody" parent="."]
 
 [node name="MeshInstance" type="MeshInstance" parent="Flat"]
-transform = Transform( 5, 0, 0, 0, 0.09, 0, 0, 0, 5, 0, 0, 0 )
+transform = Transform( 9.44, 0, 0, 0, 0.09, 0, 0, 0, 5, 0, 0, 0 )
 mesh = SubResource( 1 )
 skeleton = NodePath("../..")
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="Flat"]
+[node name="CollisionShape" type="CollisionShape" parent="Flat"]
+transform = Transform( 9.44, 0, 0, 0, 0.09, 0, 0, 0, 5, 0, 0, 0 )
+shape = SubResource( 4 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Flat/StaticBody"]
-transform = Transform( 5, 0, 0, 0, 0.09, 0, 0, 0, 5, 0, 0, 0 )
-shape = SubResource( 2 )
-
-[node name="Ramp" type="Spatial" parent="."]
+[node name="Ramp" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.321, 0.12 )
 
-[node name="StaticBody" type="StaticBody" parent="Ramp"]
-
-[node name="MeshInstance" type="MeshInstance" parent="Ramp/StaticBody"]
+[node name="MeshInstance" type="MeshInstance" parent="Ramp"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -71.229, 45.402 )
 mesh = ExtResource( 1 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Ramp/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Ramp"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -71.229, 45.402 )
 shape = SubResource( 3 )
