@@ -33,7 +33,9 @@ public class Player : Spatial
 		// Angle camera based on ground
 		if (this.collision.floorCollisionNormal != null)
 		{
-			cameraTransform = cameraTransform.Rotated(new Vector3(1, 0, 0), cameraTransform.basis.GetEuler().x - (this.collision.floorCollisionNormal.Value.z * -1));
+			var rotDiff = cameraTransform.basis.GetEuler().x - (Mathf.Abs(this.collision.floorCollisionNormal.Value.z) * -1);
+			var eased = (1 - Mathf.Pow(1 - rotDiff, 5)); // parabola easing
+			cameraTransform = cameraTransform.Rotated(new Vector3(1, 0, 0), eased * delta);
 		}
 		
 		this.camera.Transform = cameraTransform;
