@@ -13,6 +13,8 @@ public class Player : Spatial
 
 	/// The position the camera was positioned via the 3D editor when the scene started, used to position the camera in a good position above the player.
 	private Vector3 initialCameraOffset;
+	
+	private Ball ball;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -21,6 +23,8 @@ public class Player : Spatial
 		this.camera = GetNode<SpringArm>("SpringArm");
 		
 		this.initialCameraOffset = this.camera.Transform.origin;
+
+		this.ball = GetNode<Ball>("Collision/ball");
 	}
 
 	 // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,5 +43,10 @@ public class Player : Spatial
 		}
 		
 		this.camera.Transform = cameraTransform;
+
+		// Open ball
+		if (Input.IsActionPressed("open_ball") && this.collision.floorCollisionNormal == null) {
+			this.ball.Open();
+		}
 	}
 }

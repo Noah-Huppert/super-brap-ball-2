@@ -2,10 +2,9 @@
 
 [ext_resource path="res://Player.cs" type="Script" id=1]
 [ext_resource path="res://PlayerCollision.cs" type="Script" id=2]
+[ext_resource path="res://assets/player/ball.tscn" type="PackedScene" id=3]
 
 [sub_resource type="PhysicsMaterial" id=3]
-
-[sub_resource type="SphereMesh" id=1]
 
 [sub_resource type="SphereShape" id=2]
 
@@ -20,10 +19,8 @@ contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 2 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Collision"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000525832, 0, -0.000525773 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
+[node name="ball" parent="Collision" instance=ExtResource( 3 )]
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Collision"]
 shape = SubResource( 2 )
