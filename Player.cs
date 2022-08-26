@@ -19,7 +19,7 @@ public class Player : Spatial
 	{
 		this.collision = GetNode<PlayerCollision>("Collision");
 		this.camera = GetNode<SpringArm>("SpringArm");
-
+		
 		this.initialCameraOffset = this.camera.Transform.origin;
 	}
 

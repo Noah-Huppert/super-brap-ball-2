@@ -25,7 +25,7 @@ transform = Transform( 9.44, 0, 0, 0, 0.09, 0, 0, 0, 5, 0, 0, 0 )
 shape = SubResource( 4 )
 
 [node name="Ramp" type="StaticBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.321, 0.12 )
+transform = Transform( 1.00005, 0, 0, 0, 1.00005, 0, 0, 0, 1.00005, 0, 0.321, 0.12 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Ramp"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -71.229, 45.402 )
