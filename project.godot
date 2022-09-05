@@ -14,6 +14,10 @@ config/name="Super Brap Ball 2"
 run/main_scene="res://scenes/main/Main.tscn"
 config/icon="res://icon.png"
 
+[global]
+
+feet=false
+
 [input]
 
 player_forward={
