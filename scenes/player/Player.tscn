@@ -31,4 +31,4 @@ spring_length = 3.475
 
 [node name="Camera" type="Camera" parent="SpringArm"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0744496, -0.189589 )
-far = 8192.0
+far = 5000.0
