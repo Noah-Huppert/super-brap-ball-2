@@ -19,6 +19,10 @@ public class PlayerCollision : RigidBody
     // Amount angle of attack is changed while in the air and angle of attack is indicated to be changed.
     const float ANGLE_OF_ATTACK_CHANGE_AMOUNT = Mathf.Pi / 8f;
 
+	// Number which takes into account factors which aggregate into how much drag an object has.
+	// Number is for a Cessna 172: http://www.temporal.com.au/c172.pdf (pg 8)
+    const float DRAG_COEFFICIENT = 0.0341f;
+
     // The collision normal of the player on the ground. Or null if the player is not touching the ground.
     public Vector3? floorCollisionNormal = null;
 
@@ -52,10 +56,23 @@ public class PlayerCollision : RigidBody
         {
             // Air movement
             //this.Mode = ModeEnum.Kinematic;
-            var lift_coefficient = ((this.Rotation.x * (180 / Mathf.Pi)) * 0.06f) + 0.4f;
-            var lift = lift_coefficient * WING_AREA * 0.5f * AIR_DENSITY * Mathf.Pow(this.LinearVelocity.z, 2);
+            var liftCoefficient = ((this.Rotation.x * (180 / Mathf.Pi)) * 0.06f) + 0.4f;
 
-            this.AddCentralForce(new Vector3(0, lift, 0));
+			// TODO: Should liftMagnitude and dragMagnitude use all velocity components?
+
+			// Note linear velocity represents "true air speed", change to account for wind when added to game
+            var liftMagnitude = liftCoefficient * WING_AREA * 0.5f * AIR_DENSITY * Mathf.Pow(this.LinearVelocity.z, 2);
+            // Lift is perpedicular to the flight path (https://www.grc.nasa.gov/www/k-12/airplane/glidvec.html)
+			var liftDir = Vector3.Up.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
+            var lift = liftDir * liftMagnitude;
+
+            var dragMagnitude = DRAG_COEFFICIENT * ((AIR_DENSITY * Mathf.Pow(this.LinearVelocity.z, 2)) / 2f) * WING_AREA;
+            var dragDir = Vector3.Back.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
+            var drag = dragDir * dragMagnitude;
+
+            GD.Print(lift + " - " + drag);
+
+            this.AddCentralForce(lift - drag);
 
             if (forwardStrength < 0)
             {
