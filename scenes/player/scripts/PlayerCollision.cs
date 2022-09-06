@@ -16,6 +16,9 @@ public class PlayerCollision : RigidBody
 	// https://en.m.wikipedia.org/wiki/Density_of_air
     const float AIR_DENSITY = 1.204f;
 
+    // Amount angle of attack is changed while in the air and angle of attack is indicated to be changed.
+    const float ANGLE_OF_ATTACK_CHANGE_AMOUNT = Mathf.Pi / 8f;
+
     // The collision normal of the player on the ground. Or null if the player is not touching the ground.
     public Vector3? floorCollisionNormal = null;
 
@@ -25,6 +28,16 @@ public class PlayerCollision : RigidBody
     public override void _Ready()
     {
         this.ball = GetNode<Ball>("ball");
+    }
+
+    public override void _Process(float delta)
+    {
+		// Open ball
+		if (Input.IsActionPressed("open_ball") && this.floorCollisionNormal == null) {
+			this.ball.Open();
+            this.Rotation = Vector3.Zero;
+            this.AngularVelocity = Vector3.Zero;
+        }
     }
 
     public override void _PhysicsProcess(float delta)
@@ -39,13 +52,18 @@ public class PlayerCollision : RigidBody
         {
             // Air movement
             //this.Mode = ModeEnum.Kinematic;
-            var lift_coefficient = this.Rotation.x * 0.06f + 0.4f;
-            // MAX_LIFT_COEFFICIENT * this.Rotation.x;
+            var lift_coefficient = ((this.Rotation.x * (180 / Mathf.Pi)) * 0.06f) + 0.4f;
             var lift = lift_coefficient * WING_AREA * 0.5f * AIR_DENSITY * Mathf.Pow(this.LinearVelocity.z, 2);
 
-            GD.Print(lift);
-
             this.AddCentralForce(new Vector3(0, lift, 0));
+
+            if (forwardStrength < 0)
+            {
+                this.RotateX(-1 * ANGLE_OF_ATTACK_CHANGE_AMOUNT * delta);
+            } else if (forwardStrength > 0)
+            {
+				this.RotateX(ANGLE_OF_ATTACK_CHANGE_AMOUNT * delta);
+            }
         } else
         {
             // Ground movement

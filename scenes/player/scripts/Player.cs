@@ -43,10 +43,5 @@ public class Player : Spatial
 		}
 		
 		this.camera.Transform = cameraTransform;
-
-		// Open ball
-		if (Input.IsActionPressed("open_ball") && this.collision.floorCollisionNormal == null) {
-			this.ball.Open();
-		}
 	}
 }
