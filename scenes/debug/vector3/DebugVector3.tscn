@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/debug/vector3/scripts/DebugVector3.cs" type="Script" id=1]
+
+[sub_resource type="CylinderMesh" id=1]
+
+[sub_resource type="PrismMesh" id=2]
+
+[node name="DebugVector3" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Arrow" type="Spatial" parent="."]
+transform = Transform( 0.2, 0, 0, 0, 1, 0, 0, 0, 0.2, 0, 1, 0 )
+
+[node name="Line" type="MeshInstance" parent="Arrow"]
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+
+[node name="Head" type="MeshInstance" parent="Arrow"]
+transform = Transform( 1.5, 0, 0, 0, 0.355, 0, 0, 0, 1.5, 0, 1.35685, 0 )
+mesh = SubResource( 2 )
+skeleton = NodePath("../..")

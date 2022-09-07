@@ -29,9 +29,12 @@ public class PlayerCollision : RigidBody
     // The ball 3D model.
     private Ball ball;
 
+    private DebugVector3 debugVector3;
+
     public override void _Ready()
     {
         this.ball = GetNode<Ball>("ball");
+        this.debugVector3 = GetNode<DebugVector3>("/root/Main/Player/DebugVector3");
     }
 
     public override void _Process(float delta)
@@ -70,6 +73,7 @@ public class PlayerCollision : RigidBody
             var dragDir = Vector3.Back.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
             var drag = dragDir * dragMagnitude;
 
+            this.debugVector3.vector = new Vector3(0, 1, 0);//lift;
             GD.Print(lift + " - " + drag);
 
             this.AddCentralForce(lift - drag);

@@ -15,12 +15,14 @@ public class Player : Spatial
 	private Vector3 initialCameraOffset;
 	
 	private Ball ball;
+    private DebugVector3 debugVector3;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 		this.collision = GetNode<PlayerCollision>("Collision");
-		this.camera = GetNode<SpringArm>("SpringArm");
+        this.debugVector3 = GetNode<DebugVector3>("DebugVector3");
+        this.camera = GetNode<SpringArm>("SpringArm");
 		
 		this.initialCameraOffset = this.camera.Transform.origin;
 
@@ -43,5 +45,9 @@ public class Player : Spatial
 		}
 		
 		this.camera.Transform = cameraTransform;
-	}
+
+        var foo = this.debugVector3.Transform;
+        foo.origin = this.collision.Transform.origin;
+        this.debugVector3.Transform = foo;
+    }
 }
