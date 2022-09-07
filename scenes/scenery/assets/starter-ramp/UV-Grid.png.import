@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/UV-Grid.png-a37c293de11613fbe2f396fd177b5740.stex"
+path="res://.import/UV-Grid.png-0a37bc363065ec1613156477a2c2249e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/starting-area/assets/starter-ramp/UV-Grid.png"
-dest_files=[ "res://.import/UV-Grid.png-a37c293de11613fbe2f396fd177b5740.stex" ]
+source_file="res://scenes/scenery/assets/starter-ramp/UV-Grid.png"
+dest_files=[ "res://.import/UV-Grid.png-0a37bc363065ec1613156477a2c2249e.stex" ]
 
 [params]
 

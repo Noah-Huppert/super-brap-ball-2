@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scenes/starting-area/assets/starter-ramp/starter-ramp_Cube001.mesh" type="ArrayMesh" id=1]
+[ext_resource path="res://scenes/scenery/assets/starter-ramp/starter-ramp_Cube001.mesh" type="ArrayMesh" id=1]
 
 [sub_resource type="CubeMesh" id=1]
 
