@@ -30,11 +30,18 @@ public class PlayerCollision : RigidBody
     private Ball ball;
 
     private DebugVector3 debugVector3;
+    private PrintEvery printer;
 
     public override void _Ready()
     {
         this.ball = GetNode<Ball>("ball");
         this.debugVector3 = GetNode<DebugVector3>("/root/Main/Player/DebugVector3");
+        this.printer = new PrintEvery(10);
+
+        this.debugVector3.vector = new Vector3(-1f, 0, 0);
+        var tween = GetTree().CreateTween();
+		tween.TweenProperty(this.debugVector3, "vectorX", 1f, 5);
+		tween.SetLoops();
     }
 
     public override void _Process(float delta)
@@ -66,17 +73,18 @@ public class PlayerCollision : RigidBody
 			// Note linear velocity represents "true air speed", change to account for wind when added to game
             var liftMagnitude = liftCoefficient * WING_AREA * 0.5f * AIR_DENSITY * Mathf.Pow(this.LinearVelocity.z, 2);
             // Lift is perpedicular to the flight path (https://www.grc.nasa.gov/www/k-12/airplane/glidvec.html)
-			var liftDir = Vector3.Up.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
+            var liftDir = new Vector3(0, 0, 1).Rotated(new Vector3(1, 0, 0), this.Rotation.x);////new Vector3(1, 0, 0), -1 * (Mathf.Pi / 2));// + this.Rotation.x);
             var lift = liftDir * liftMagnitude;
 
             var dragMagnitude = DRAG_COEFFICIENT * ((AIR_DENSITY * Mathf.Pow(this.LinearVelocity.z, 2)) / 2f) * WING_AREA;
             var dragDir = Vector3.Back.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
             var drag = dragDir * dragMagnitude;
 
-            this.debugVector3.vector = new Vector3(0, 1, 0);//lift;
-            GD.Print(lift + " - " + drag);
+            //this.debugVector3.vector = liftDir;
+			this.printer.Print("liftDir=" + liftDir + ", rot.x=" + this.Rotation.x);
+            //GD.Print(lift + " - " + drag);
 
-            this.AddCentralForce(lift - drag);
+            //this.AddCentralForce(lift - drag);
 
             if (forwardStrength < 0)
             {
