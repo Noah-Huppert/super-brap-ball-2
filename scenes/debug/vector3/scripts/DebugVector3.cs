@@ -7,6 +7,7 @@ public class DebugVector3 : Spatial
     [Export]
     public Vector3 vector = Vector3.Zero;
 
+    // Gets and sets the vector.x property.
 	[Export]
 	public float vectorX
     {
@@ -20,6 +21,7 @@ public class DebugVector3 : Spatial
         }
     }
 
+    // Gets and sets the vector.y property.
     [Export]
     public float vectorY
     {
@@ -33,6 +35,7 @@ public class DebugVector3 : Spatial
         }
     }
 
+    // Gets and sets the vector.z property.
 	[Export]
 	public float vectorZ
     {
@@ -55,42 +58,48 @@ public class DebugVector3 : Spatial
         this.renderArrow = GetNode<Spatial>("Arrow");
     }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	// Update 3D model to point in correct direction and have correct magnitude.
+    // The magnitude is shown by setting the arrow's y scale. 
+    // X angle (rotates for vector.?) = tan^-1(y/z)
+    // Y angle (rotates for vector.z) = tan^-1(x/z)
+    // Z angle (rotates for vector.y)= tan^-1(y/x)
 	public override void _Process(float delta)
 	{
-        var nVec = this.vector;
+        var xAngle = this.SafeAtan(this.vector.y, this.vector.z);// * Mathf.Pi * 2 * this.NormalizedSign(this.vector.z);
+        var yAngle = this.SafeAtan(this.vector.x, this.vector.z) - Mathf.Pi * 2 * this.NormalizedSign(this.vector.z);
+        var zAngle = this.SafeAtan(this.vector.y, this.vector.x) + (Mathf.Pi / 2) * this.NormalizedSign(this.vector.x);
+        
+        var xQuat = new Quat(new Vector3(1, 0, 0), xAngle);
+        var yQuat = new Quat(new Vector3(0, 1, 0), yAngle);
+        var zQuat = new Quat(new Vector3(0, 0, 1), zAngle);
+        
+        var quat = yQuat * zQuat;//xQuat * yQuat * zQuat;
 
-        // var rotX = nVec.z;
-        // var rotY = nVec.y;
-        // var rotZ = nVec.x;
-        // var rotW = Mathf.Sqrt(1 - Mathf.Pow(rotX, 2) - Mathf.Pow(rotY, 2) - Mathf.Pow(rotZ, 2))
-		// var rot = new Quat(rotW, rotX, rotY, rotZ);
+       GD.Print("vector=" + this.vector + ", angle=(" + xAngle + ", " + yAngle + ", " + zAngle + ")");
 
-        var yRot = new Quat(new Vector3(1, 0, 0), nVec.y * (Mathf.Pi / 2));
-        var rot = Quat.Identity;
-
-        var transform = new Transform(rot, Vector3.Zero);
-        // transform.Scaled(new Vector3(0.05f, nVec.Length(), 0.05f));
+        var transform = new Transform(quat, Vector3.Zero);
         this.renderArrow.Transform = transform;
 
-        GD.Print("vectorY=" + this.vectorY + ", nVec=" + nVec + ", quat=" + rot);
+        // Set magnitude
+        this.renderArrow.Scale = new Vector3(0.05f, this.vector.Length(), 0.05f);
+    }
 
-        // // Set angle
-        // var dirVec = Vector3.Zero.DirectionTo(nVec);
-        // var rightAngle = (Mathf.Pi / 2);
-
-        // this.renderArrow.GlobalRotation = new Vector3(
-        // 	dirVec.z != 0 ? rightAngle / dirVec.z : 0,
-        // 	0,
-        // 	dirVec.x != 0 ? rightAngle / dirVec.x : 0
-        // );
-
-        // // Set scale
-        var vecSign = 1;
-        if (this.vector.y < 0)
-        {
-            vecSign = -1;
+    // Performs an inverse tangent operation = tan^-1(a/b). However if b is 0 simply returns 0, in order to avoid a divide by zero.
+    private float SafeAtan(float a, float b) {
+        if (b == 0) {
+            return 0;
         }
-        this.renderArrow.Scale = new Vector3(0.05f, nVec.Length() * vecSign, 0.05f);
+
+        return Mathf.Atan(a / b);
+    }
+
+    // Get a 1 or -1 based on the sign of the number. Returns 1 if value is 0.
+    private float NormalizedSign(float value)
+    {
+        if (value < 0) {
+            return -1;
+        }
+            
+        return 1;
     }
 }
