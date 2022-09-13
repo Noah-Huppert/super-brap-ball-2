@@ -38,10 +38,14 @@ public class PlayerCollision : RigidBody
         this.debugVector3 = GetNode<DebugVector3>("/root/Main/Player/DebugVector3");
         this.printer = new PrintEvery(10);
 
-        this.debugVector3.vector = new Vector3(0f, -1f, 0f);
+        this.debugVector3.vector = new Vector3(-1f, 0f, -1f);
         var tween = GetTree().CreateTween();
-		tween.TweenProperty(this.debugVector3, "vectorY", 1f, 10);
+		tween.TweenProperty(this.debugVector3, "vectorX", 1f, 10);
 		tween.SetLoops();
+
+        var tween2 = GetTree().CreateTween();
+		tween2.TweenProperty(this.debugVector3, "vectorZ", 1f, 10);
+		tween2.SetLoops();
     }
 
     public override void _Process(float delta)
