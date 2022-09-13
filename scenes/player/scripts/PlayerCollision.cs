@@ -38,9 +38,9 @@ public class PlayerCollision : RigidBody
         this.debugVector3 = GetNode<DebugVector3>("/root/Main/Player/DebugVector3");
         this.printer = new PrintEvery(10);
 
-        this.debugVector3.vector = new Vector3(0, 0, -1f);
+        this.debugVector3.vector = new Vector3(0f, -1f, 0f);
         var tween = GetTree().CreateTween();
-		tween.TweenProperty(this.debugVector3, "vectorZ", 1f, 10);
+		tween.TweenProperty(this.debugVector3, "vectorY", 1f, 10);
 		tween.SetLoops();
     }
 
