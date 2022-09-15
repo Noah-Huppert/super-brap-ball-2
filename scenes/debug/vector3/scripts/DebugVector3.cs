@@ -52,6 +52,8 @@ public class DebugVector3 : Spatial
     // The parent of the meshes used to draw the vector.
     private Spatial renderArrow;
 
+    private RayCast rayCast;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -63,9 +65,9 @@ public class DebugVector3 : Spatial
     // 
     // The angle is a bit more complex. Think of 3 angles:
     //
-    // - a: between axis x and y
-    // - b: between axis y and z
-    // - c: between axis x and z
+    // - a (for z axis): between axis x and y
+    // - b (for x axis): between axis y and z
+    // - c (for y axis): between axis x and z
     //
     // Each of these angles must be applied to the axis that is perpendicular to the axes it is between:
     //
@@ -78,34 +80,75 @@ public class DebugVector3 : Spatial
     // - a: cos^-1(y/h)
     // - b: cos^-1(z/h)
     // - c: cos^-1(x/h)
+    //
+    // Note: h in these notes is the length of the hypotenuse in the 2d space of the 2 axises, not the length of the vector.
 	public override void _Process(float delta)
 	{
-        var xAngle = this.SafeAcos(this.vector.z, this.vector.Length());
-        var yAngle = this.SafeAcos(this.vector.x, this.vector.Length());
-        var zAngle = this.SafeAcos(this.vector.y, this.vector.Length());
+        var xAngle = this.SafeAcos(this.vector.z, this.Pythag(this.vector.y, this.vector.z));
+
+        //GD.Print("vector=" + this.vector + ", z/h (" + this.vector.z + "/" + this.Pythag(this.vector.y, this.vector.z) + ")=" + xAngle + ", y/h(" + this.vector.y + "/" + this.Pythag(this.vector.y, this.vector.z) + ")=" + this.SafeAsin(this.vector.y, this.Pythag(this.vector.y, this.vector.z)));
+
+        var xzLength = this.Pythag(this.vector.x, this.vector.z);
+        var yAngle = this.SafeAcos(this.vector.x, xzLength);
+
+        //GD.Print("vector=", this.vector + ", h=" + xzLength + ", acos(x/h)=" + yAngle + ", asin(z/h)=" + this.SafeAsin(this.vector.z, xzLength));
+
+        var zAngle = this.SafeAcos(this.vector.y, this.Pythag(this.vector.x, this.vector.y));
+
         
+        GD.Print("rot=(" + this.Rad3ToDeg3(new Vector3(xAngle, yAngle, zAngle)) + ")");
+
+
         var xQuat = new Quat(new Vector3(1, 0, 0), xAngle);
         var yQuat = new Quat(new Vector3(0, 1, 0), yAngle);
-        var zQuat = new Quat(new Vector3(0, 0, 1), zAngle);
+        var zQuat = new Quat(new Vector3(0, 0, 1), zAngle); 
         
         var quat = xQuat * yQuat * zQuat;
-
-       GD.Print("vector=" + this.vector + ", angle=(" + xAngle + ", " + yAngle + ", " + zAngle + "), (y/z, z/x, y/x)");
-
         var transform = new Transform(quat, Vector3.Zero);
+
+        /* var diff = this.Transform.basis.GetEuler() - new Vector3(xAngle, yAngle, zAngle);
+        this.RotateX(diff.x);
+        this.RotateY(diff.y);
+        this.RotateZ(diff.z); */
+
+        /* var transform = new Transform(Quat.Identity, Vector3.Zero);
+        transform = transform.Rotated(new Vector3(1, 0, 0), xAngle);
+        transform = transform.Rotated(new Vector3(0, 1, 0), yAngle);
+        transform = transform.Rotated(new Vector3(0, 0, 1), zAngle); */
+
+       //GD.Print("vector=" + this.vector + ", angle=(" + xAngle + ", " + yAngle + ", " + zAngle + "), (y/z, z/x, y/x)");
+
         this.renderArrow.Transform = transform;
 
         // Set magnitude
         this.renderArrow.Scale = new Vector3(0.05f, this.vector.Length(), 0.05f);
     }
 
+    private Vector3 Rad3ToDeg3(Vector3 vec3) {
+        var convert = 180 / Mathf.Pi;
+
+        return new Vector3(vec3.x * convert, vec3.y * convert, vec3.z * convert);
+    }
+
+    private float Pythag(float a, float b) {
+        return Mathf.Sqrt(Mathf.Pow(a, 2) + Mathf.Pow(b, 2));
+    }
+
     // Performs an inverse cosine operation = cos^-1(a/b). However if b is 0 simply returns 0, in order to avoid a divide by zero.
     private float SafeAcos(float a, float b) {
         if (b == 0) {
-            return 0;
+            return Mathf.Acos(0);
         }
 
         return Mathf.Acos(a / b);
+    }
+
+    private float SafeAsin(float a, float b) {
+        if (b == 0) {
+            return Mathf.Asin(0);
+        }
+
+        return Mathf.Asin(a/b);
     }
 
     // Get a 1 or -1 based on the sign of the number. Returns 1 if value is 0.

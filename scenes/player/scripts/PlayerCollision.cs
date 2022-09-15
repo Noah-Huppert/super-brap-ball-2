@@ -46,6 +46,10 @@ public class PlayerCollision : RigidBody
         var tween2 = GetTree().CreateTween();
 		tween2.TweenProperty(this.debugVector3, "vectorZ", 1f, 10);
 		tween2.SetLoops();
+/* 
+        var tween3 = GetTree().CreateTween();
+		tween3.TweenProperty(this.debugVector3, "vectorY", 1f, 10);
+		tween3.SetLoops(); */
     }
 
     public override void _Process(float delta)

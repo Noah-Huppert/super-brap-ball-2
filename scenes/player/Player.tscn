@@ -30,7 +30,6 @@ transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
 visible = false
 
 [node name="DebugVector3" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.77636e-15, -1.19209e-07, -2.98023e-08 )
 __meta__ = {
 "_edit_lock_": true
 }
