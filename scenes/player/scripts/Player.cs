@@ -25,13 +25,13 @@ public class Player : Spatial
 		this.initialCameraOffset = this.camera.Transform.origin;
 
 		this.ball = GetNode<Ball>("Collision/ball");
-	}
+    }
 
 	 // Called every frame. 'delta' is the elapsed time since the previous frame.
 	 public override void _Process(float delta)
-	 {
-		// Move camera with player
-		var cameraTransform = this.camera.Transform;
+	 {	
+        // Move camera with player
+        var cameraTransform = this.camera.Transform;
 		cameraTransform.origin = this.collision.Transform.origin + this.initialCameraOffset;
 
 		// Angle camera based on ground

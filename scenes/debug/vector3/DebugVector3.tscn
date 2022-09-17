@@ -1,26 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/debug/vector3/scripts/DebugVector3.cs" type="Script" id=1]
-[ext_resource path="res://scenes/debug/vector3/assets/green.tres" type="Material" id=2]
 
-[sub_resource type="CylinderMesh" id=1]
-material = ExtResource( 2 )
+[sub_resource type="SpatialMaterial" id=3]
+vertex_color_use_as_albedo = true
+albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="PrismMesh" id=2]
-material = ExtResource( 2 )
-
-[node name="DebugVector3" type="Spatial"]
+[node name="DebugVector3" type="ImmediateGeometry"]
+material_override = SubResource( 3 )
 script = ExtResource( 1 )
-
-[node name="Arrow" type="Spatial" parent="."]
-transform = Transform( 0.05, 0, 0, 0, 1, 0, 0, 0, 0.05, 0, 0, 0 )
-
-[node name="Line" type="MeshInstance" parent="Arrow"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-
-[node name="Head" type="MeshInstance" parent="Arrow"]
-transform = Transform( 1.5, 0, 0, 0, 0.129, 0, 0, 0, 1.5, 0, 2, 0 )
-mesh = SubResource( 2 )
-skeleton = NodePath("../..")

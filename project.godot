@@ -14,10 +14,6 @@ config/name="Super Brap Ball 2"
 run/main_scene="res://scenes/main/Main.tscn"
 config/icon="res://icon.png"
 
-[autoload]
-
-DrawLine3D="*res://plugins/Godot-3D-Lines/DrawLine3D.gd"
-
 [global]
 
 feet=false

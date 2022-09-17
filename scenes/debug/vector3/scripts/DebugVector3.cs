@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class DebugVector3 : Spatial
+public class DebugVector3 : ImmediateGeometry
 {
 	// The vector which will be represented by the render.
     [Export]
@@ -49,113 +49,53 @@ public class DebugVector3 : Spatial
         }
     }
 
-    // The parent of the meshes used to draw the vector.
-    private Spatial renderArrow;
+    // Color in which vector body will be drawn.
+	[Export]
+    private Color bodyColor = new Color(1, 0, 0, 1);
 
-    // Called when the node enters the scene tree for the first time.
+    // Color in which vector end "arrow" will be drawn.
+	[Export]
+    private Color arrowColor = new Color(0, 1, 0, 1);
+
+    // If true then the parent's rotation will be ignored.
+	[Export]
+    private bool ignoreParentRotation = false;
+
+    // Used to help ignore parent rotation if ignoreParentRoation is enabled.
+    private Vector3 initialGlobalRotation;
+
     public override void _Ready()
     {
-        this.renderArrow = GetNode<Spatial>("Arrow");
+        this.initialGlobalRotation = this.GlobalRotation;
     }
 
-	// Update 3D model to point in correct direction and have correct magnitude.
-    // The magnitude is shown by setting the arrow's y scale. 
-    // 
-    // The angle is a bit more complex. Think of 3 angles:
-    //
-    // - a (for z axis): between axis x and y
-    // - b (for x axis): between axis y and z
-    // - c (for y axis): between axis x and z
-    //
-    // Each of these angles must be applied to the axis that is perpendicular to the axes it is between:
-    //
-    // - a: apply to z axis
-    // - b: apply to x axis
-    // - c: apply to y axis
-    //
-    // Inverse cosine is used to find these angles because the hypotenuse can be used a denominator, and it will never be zero if the vector should be shown. Thus ensuring no divide by zero scenarios occur. The angles are calculated as such:
-    //
-    // - a: cos^-1(y/h)
-    // - b: cos^-1(z/h)
-    // - c: cos^-1(x/h)
-    //
-    // Note: h in these notes is the length of the hypotenuse in the 2d space of the 2 axises, not the length of the vector.
-	public override void _Process(float delta)
-	{
-        var xAngle = this.SafeAcos(this.vector.z, this.Hypotenuse(this.vector.y, this.vector.z));
-
-        //GD.Print("vector=" + this.vector + ", z/h (" + this.vector.z + "/" + this.Pythag(this.vector.y, this.vector.z) + ")=" + xAngle + ", y/h(" + this.vector.y + "/" + this.Pythag(this.vector.y, this.vector.z) + ")=" + this.SafeAsin(this.vector.y, this.Pythag(this.vector.y, this.vector.z)));
-
-        var xzLength = this.Hypotenuse(this.vector.x, this.vector.z);
-        var yAngle = this.SafeAcos(this.vector.x, xzLength);
-
-        //GD.Print("vector=", this.vector + ", h=" + xzLength + ", acos(x/h)=" + yAngle + ", asin(z/h)=" + this.SafeAsin(this.vector.z, xzLength));
-
-        var zAngle = this.SafeAcos(this.vector.y, this.Hypotenuse(this.vector.x, this.vector.y));
-
-        
-        GD.Print("rot=" + this.Rad3ToDeg3(new Vector3(xAngle, yAngle, zAngle)) + " == actual=" + this.Rad3ToDeg3(this.renderArrow.Rotation));
-
-        var xQuat = new Quat(new Vector3(1, 0, 0), xAngle);
-        var yQuat = new Quat(new Vector3(0, 1, 0), yAngle);
-        var zQuat = new Quat(new Vector3(0, 0, 1), zAngle);
-
-        var quat = xQuat * yQuat * zQuat;// xQuat * yQuat * zQuat;
-        var transform = new Transform(quat, Vector3.Zero);
-
-        /* var diff = this.Transform.basis.GetEuler() - new Vector3(xAngle, yAngle, zAngle);
-        this.RotateX(diff.x);
-        this.RotateY(diff.y);
-        this.RotateZ(diff.z); */
-
-        // var transform = new Transform(Quat.Identity, Vector3.Zero);
-        // transform = transform.Rotated(new Vector3(1, 0, 0), xAngle);
-        // transform = transform.Rotated(new Vector3(0, 1, 0), yAngle);
-        // transform = transform.Rotated(new Vector3(0, 0, 1), zAngle);
-
-        //GD.Print("vector=" + this.vector + ", angle=(" + xAngle + ", " + yAngle + ", " + zAngle + "), (y/z, z/x, y/x)");
-
-        //this.renderArrow.Transform = transform;
-        this.renderArrow.Rotation = new Vector3(xAngle, yAngle, zAngle);
-
-        // Set magnitude
-        this.renderArrow.Scale = new Vector3(0.05f, this.vector.Length(), 0.05f);
-    }
-
-    private Vector3 Rad3ToDeg3(Vector3 vec3) {
-        var convert = 180 / Mathf.Pi;
-
-        return new Vector3(vec3.x * convert, vec3.y * convert, vec3.z * convert);
-    }
-
-    private float Hypotenuse(float a, float b) {
-        return Mathf.Sqrt(Mathf.Pow(a, 2) + Mathf.Pow(b, 2));
-    }
-
-    // Performs an inverse cosine operation = cos^-1(a/b). However if b is 0 simply returns 0, in order to avoid a divide by zero.
-    private float SafeAcos(float a, float b) {
-        if (b == 0) {
-            return Mathf.Acos(0);
-        }
-
-        return Mathf.Acos(a / b);
-    }
-
-    private float SafeAsin(float a, float b) {
-        if (b == 0) {
-            return Mathf.Asin(0);
-        }
-
-        return Mathf.Asin(a/b);
-    }
-
-    // Get a 1 or -1 based on the sign of the number. Returns 1 if value is 0.
-    private float NormalizedSign(float value)
+    public override void _Process(float delta)
     {
-        if (value < 0) {
-            return -1;
+        // Maybe ignore rotation
+        if (this.ignoreParentRotation)
+        {
+            this.GlobalRotation = this.initialGlobalRotation;
         }
-            
-        return 1;
+
+        // Draw vector
+        this.Clear();
+        this.Begin(Mesh.PrimitiveType.Lines);
+
+        // Draw body
+        this.SetColor(this.bodyColor);
+
+        this.AddVertex(new Vector3(0, 0, 0));
+
+        var body = this.vector * 0.9f;
+        this.AddVertex(body);
+
+        // Draw arrow.
+        this.SetColor(this.arrowColor);
+
+        var arrow = this.vector * 0.1f;
+        this.AddVertex(body);
+        this.AddVertex(body + arrow);
+
+        this.End();
     }
 }
