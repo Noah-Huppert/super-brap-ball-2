@@ -55,15 +55,15 @@ public class DebugVector3 : ImmediateGeometry
 
     // Color in which vector body will be drawn.
 	[Export]
-    private Color bodyColor = new Color(1, 0, 0, 1);
+    public Color bodyColor = new Color(1, 0, 0, 1);
 
     // Color in which vector end "arrow" will be drawn.
 	[Export]
-    private Color arrowColor = new Color(0, 1, 0, 1);
+    public Color arrowColor = new Color(0, 1, 0, 1);
 
     // If true then the parent's rotation will be ignored.
 	[Export]
-    private bool ignoreParentRotation = false;
+    public bool ignoreParentRotation = true;
 
     // Used to help ignore parent rotation if ignoreParentRoation is enabled.
     private Vector3 initialGlobalRotation;
@@ -71,8 +71,20 @@ public class DebugVector3 : ImmediateGeometry
     // The label node in the world.
     private Label3D labelNode;
 
-	// Create a DebugVector3 scene and add it as a child of the parent node.
-    static public DebugVector3 AddNode(Node parent, Vector3 initVec, String label, bool ignoreParentRotation = false)
+    // If true the vector's value will be shown in the label.
+    [Export]
+    public bool includeValueInLabel = true;
+
+    // If greater than 0 the vector will be rounded to this number of decimal places when shown in the label.
+    [Export]
+    public int roundLabelValue = 2;
+
+    // This number will be used to scale the vector so it can appear bigger or smaller on the screen. The vector value shown in the label will not be scaled by this. To indicate the vector is being scaled an astrix will be appended.
+    [Export]
+    public float vectorScale = 1;
+
+    // Create a DebugVector3 scene and add it as a child of the parent node.
+    static public DebugVector3 AddNode(Node parent, Vector3 initVec, String label, bool ignoreParentRotation = true, bool includeValueInLabel = true)
     {
         var scene = ResourceLoader.Load<PackedScene>("res://scenes/debug/vector3/DebugVector3.tscn");
 		
@@ -80,6 +92,7 @@ public class DebugVector3 : ImmediateGeometry
         debugVector.vector = initVec;
         debugVector.label = label;
         debugVector.ignoreParentRotation = ignoreParentRotation;
+        debugVector.includeValueInLabel = includeValueInLabel;
 
         parent.AddChild(debugVector);
 
@@ -101,6 +114,8 @@ public class DebugVector3 : ImmediateGeometry
         }
 
         // Draw vector
+        var scaledVector = this.vector * this.vectorScale;
+		
         this.Clear();
         this.Begin(Mesh.PrimitiveType.Lines);
 
@@ -109,20 +124,42 @@ public class DebugVector3 : ImmediateGeometry
 
         this.AddVertex(new Vector3(0, 0, 0));
 
-        var body = this.vector * 0.9f;
+        var body = scaledVector * 0.9f;
         this.AddVertex(body);
 
         // Draw arrow.
         this.SetColor(this.arrowColor);
 
-        var arrow = this.vector * 0.1f;
+        var arrow = scaledVector * 0.1f;
         this.AddVertex(body);
         this.AddVertex(body + arrow);
 
         this.End();
 
         // Draw label
-        this.labelNode.Text = label;
-        this.labelNode.Transform = new Transform(new Quat(new Vector3(0, 1, 0), Mathf.Pi), this.vector);
+        var labelText = this.label;
+		var roundedVector = this.vector;
+
+        if (this.roundLabelValue >= 0)
+        {
+            roundedVector = new Vector3(
+				(float)Math.Round(this.vector.x, this.roundLabelValue),
+				(float)Math.Round(this.vector.y, this.roundLabelValue),
+				(float)Math.Round(this.vector.z, this.roundLabelValue)
+			);
+        }
+
+        if (this.includeValueInLabel)
+        {
+            labelText += " " + roundedVector;
+        }
+
+        if (this.vectorScale != 1f)
+        {
+            labelText += "*";
+        }
+
+        this.labelNode.Text = labelText;
+        this.labelNode.Transform = new Transform(new Quat(new Vector3(0, 1, 0), Mathf.Pi), scaledVector);
     }
 }

@@ -39,8 +39,11 @@ public class PlayerCollision : RigidBody
         this.ball = GetNode<Ball>("ball");
         this.printer = new PrintEvery(10);
 
-        this.liftDebugVector = DebugVector3.AddNode(this, Vector3.Zero, "Lift", true);
-        this.dragDebugVector = DebugVector3.AddNode(this, Vector3.Zero, "Drag", true);
+        this.liftDebugVector = DebugVector3.AddNode(this, Vector3.Zero, "Lift");
+        this.liftDebugVector.vectorScale = 0.25f;
+		
+        this.dragDebugVector = DebugVector3.AddNode(this, Vector3.Zero, "Drag");
+        this.dragDebugVector.vectorScale = 0.25f;
     }
 
     public override void _Process(float delta)
@@ -76,15 +79,15 @@ public class PlayerCollision : RigidBody
             var lift = liftDir * liftMagnitude;
 
             var dragMagnitude = DRAG_COEFFICIENT * ((AIR_DENSITY * Mathf.Pow(this.LinearVelocity.z, 2)) / 2f) * WING_AREA;
-            var dragDir = Vector3.Back.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
+            var dragDir = Vector3.Forward.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
             var drag = dragDir * dragMagnitude;
 
-            this.liftDebugVector.vector = liftDir;
-            this.dragDebugVector.vector = dragDir;
+            this.liftDebugVector.vector = lift;
+            this.dragDebugVector.vector = drag;
             this.printer.Print("lift=" + lift);
             //GD.Print(lift + " - " + drag);
 
-            this.AddCentralForce(lift);
+            //this.AddCentralForce(lift);
 
             if (forwardStrength < 0)
             {
