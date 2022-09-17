@@ -3,7 +3,11 @@ using System;
 
 public class DebugVector3 : ImmediateGeometry
 {
-	// The vector which will be represented by the render.
+    // The label shown next to the vector.
+    [Export]
+    public String label = "";
+
+    // The vector which will be represented by the render.
     [Export]
     public Vector3 vector = Vector3.Zero;
 
@@ -64,9 +68,28 @@ public class DebugVector3 : ImmediateGeometry
     // Used to help ignore parent rotation if ignoreParentRoation is enabled.
     private Vector3 initialGlobalRotation;
 
+    // The label node in the world.
+    private Label3D labelNode;
+
+	// Create a DebugVector3 scene and add it as a child of the parent node.
+    static public DebugVector3 AddNode(Node parent, Vector3 initVec, String label, bool ignoreParentRotation = false)
+    {
+        var scene = ResourceLoader.Load<PackedScene>("res://scenes/debug/vector3/DebugVector3.tscn");
+		
+        var debugVector = scene.Instance<DebugVector3>();
+        debugVector.vector = initVec;
+        debugVector.label = label;
+        debugVector.ignoreParentRotation = ignoreParentRotation;
+
+        parent.AddChild(debugVector);
+
+        return debugVector;
+    }
+
     public override void _Ready()
     {
         this.initialGlobalRotation = this.GlobalRotation;
+        this.labelNode = GetNode<Label3D>("Label3D");
     }
 
     public override void _Process(float delta)
@@ -97,5 +120,9 @@ public class DebugVector3 : ImmediateGeometry
         this.AddVertex(body + arrow);
 
         this.End();
+
+        // Draw label
+        this.labelNode.Text = label;
+        this.labelNode.Transform = new Transform(new Quat(new Vector3(0, 1, 0), Mathf.Pi), this.vector);
     }
 }
