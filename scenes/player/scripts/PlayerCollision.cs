@@ -29,27 +29,27 @@ public class PlayerCollision : RigidBody
     // The ball 3D model.
     private Ball ball;
 
-    private DebugVector3 debugVector3;
     private PrintEvery printer;
 
     public override void _Ready()
     {
         this.ball = GetNode<Ball>("ball");
-        this.debugVector3 = GetNode<DebugVector3>("/root/Main/Player/DebugVector3");
         this.printer = new PrintEvery(10);
 
-        this.debugVector3.vector = new Vector3(-1f, 0f, -1f);
-        var tween = GetTree().CreateTween();
-		tween.TweenProperty(this.debugVector3, "vectorX", 1f, 10);
-		tween.SetLoops();
+        GD.Print(this.GlobalTransform.origin);
+        GetNode("/root/DrawLine3D").Call("DrawLine", this.GlobalTransform.origin, this.GlobalTransform.origin + new Vector3(0f, 1f, 0f), new Color(255, 0, 0, 1));
 
-        var tween2 = GetTree().CreateTween();
-		tween2.TweenProperty(this.debugVector3, "vectorZ", 1f, 10);
-		tween2.SetLoops();
-/* 
-        var tween3 = GetTree().CreateTween();
-		tween3.TweenProperty(this.debugVector3, "vectorY", 1f, 10);
-		tween3.SetLoops(); */
+        // var tween = GetTree().CreateTween();
+        // tween.TweenProperty(this.debugVector3, "vectorX", 1f, 10);
+        // tween.SetLoops();
+
+        // var tween2 = GetTree().CreateTween();
+        // tween2.TweenProperty(this.debugVector3, "vectorZ", 1f, 10);
+        // tween2.SetLoops();
+
+        // var tween3 = GetTree().CreateTween();
+        // tween3.TweenProperty(this.debugVector3, "vectorY", 1f, 10);
+        // tween3.SetLoops();
     }
 
     public override void _Process(float delta)

@@ -52,8 +52,6 @@ public class DebugVector3 : Spatial
     // The parent of the meshes used to draw the vector.
     private Spatial renderArrow;
 
-    private RayCast rayCast;
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -84,26 +82,25 @@ public class DebugVector3 : Spatial
     // Note: h in these notes is the length of the hypotenuse in the 2d space of the 2 axises, not the length of the vector.
 	public override void _Process(float delta)
 	{
-        var xAngle = this.SafeAcos(this.vector.z, this.Pythag(this.vector.y, this.vector.z));
+        var xAngle = this.SafeAcos(this.vector.z, this.Hypotenuse(this.vector.y, this.vector.z));
 
         //GD.Print("vector=" + this.vector + ", z/h (" + this.vector.z + "/" + this.Pythag(this.vector.y, this.vector.z) + ")=" + xAngle + ", y/h(" + this.vector.y + "/" + this.Pythag(this.vector.y, this.vector.z) + ")=" + this.SafeAsin(this.vector.y, this.Pythag(this.vector.y, this.vector.z)));
 
-        var xzLength = this.Pythag(this.vector.x, this.vector.z);
+        var xzLength = this.Hypotenuse(this.vector.x, this.vector.z);
         var yAngle = this.SafeAcos(this.vector.x, xzLength);
 
         //GD.Print("vector=", this.vector + ", h=" + xzLength + ", acos(x/h)=" + yAngle + ", asin(z/h)=" + this.SafeAsin(this.vector.z, xzLength));
 
-        var zAngle = this.SafeAcos(this.vector.y, this.Pythag(this.vector.x, this.vector.y));
+        var zAngle = this.SafeAcos(this.vector.y, this.Hypotenuse(this.vector.x, this.vector.y));
 
         
-        GD.Print("rot=(" + this.Rad3ToDeg3(new Vector3(xAngle, yAngle, zAngle)) + ")");
-
+        GD.Print("rot=" + this.Rad3ToDeg3(new Vector3(xAngle, yAngle, zAngle)) + " == actual=" + this.Rad3ToDeg3(this.renderArrow.Rotation));
 
         var xQuat = new Quat(new Vector3(1, 0, 0), xAngle);
         var yQuat = new Quat(new Vector3(0, 1, 0), yAngle);
-        var zQuat = new Quat(new Vector3(0, 0, 1), zAngle); 
-        
-        var quat = xQuat * yQuat * zQuat;
+        var zQuat = new Quat(new Vector3(0, 0, 1), zAngle);
+
+        var quat = xQuat * yQuat * zQuat;// xQuat * yQuat * zQuat;
         var transform = new Transform(quat, Vector3.Zero);
 
         /* var diff = this.Transform.basis.GetEuler() - new Vector3(xAngle, yAngle, zAngle);
@@ -111,14 +108,15 @@ public class DebugVector3 : Spatial
         this.RotateY(diff.y);
         this.RotateZ(diff.z); */
 
-        /* var transform = new Transform(Quat.Identity, Vector3.Zero);
-        transform = transform.Rotated(new Vector3(1, 0, 0), xAngle);
-        transform = transform.Rotated(new Vector3(0, 1, 0), yAngle);
-        transform = transform.Rotated(new Vector3(0, 0, 1), zAngle); */
+        // var transform = new Transform(Quat.Identity, Vector3.Zero);
+        // transform = transform.Rotated(new Vector3(1, 0, 0), xAngle);
+        // transform = transform.Rotated(new Vector3(0, 1, 0), yAngle);
+        // transform = transform.Rotated(new Vector3(0, 0, 1), zAngle);
 
-       //GD.Print("vector=" + this.vector + ", angle=(" + xAngle + ", " + yAngle + ", " + zAngle + "), (y/z, z/x, y/x)");
+        //GD.Print("vector=" + this.vector + ", angle=(" + xAngle + ", " + yAngle + ", " + zAngle + "), (y/z, z/x, y/x)");
 
-        this.renderArrow.Transform = transform;
+        //this.renderArrow.Transform = transform;
+        this.renderArrow.Rotation = new Vector3(xAngle, yAngle, zAngle);
 
         // Set magnitude
         this.renderArrow.Scale = new Vector3(0.05f, this.vector.Length(), 0.05f);
@@ -130,7 +128,7 @@ public class DebugVector3 : Spatial
         return new Vector3(vec3.x * convert, vec3.y * convert, vec3.z * convert);
     }
 
-    private float Pythag(float a, float b) {
+    private float Hypotenuse(float a, float b) {
         return Mathf.Sqrt(Mathf.Pow(a, 2) + Mathf.Pow(b, 2));
     }
 

@@ -13,6 +13,7 @@ public class PrintEvery
     {
         this.lastPrint = 0;
         this.every = every;
+        this.noPrefix = noPrefix;
     }
 
     public void Print(string msg)
