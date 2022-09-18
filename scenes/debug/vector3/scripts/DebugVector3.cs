@@ -157,9 +157,51 @@ public class DebugVector3 : ImmediateGeometry
         if (this.vectorScale != 1f)
         {
             labelText += "*";
+        }		
+
+		this.labelNode.Text = labelText;
+
+		// Deal with label being off screen
+        var cam = GetViewport().GetCamera();
+
+        var labelPosition = scaledVector;
+        var labelUnprojected = cam.UnprojectPosition(labelPosition + this.GlobalTransform.origin);
+        var viewportSize = cam.GetViewport().Size;
+
+        if (labelUnprojected.x < 0 || labelUnprojected.x > viewportSize.x || labelUnprojected.y < 0 || labelUnprojected.y > viewportSize.y)
+        {
+            var onScreenUnprojected = this.limitVector2(labelUnprojected, Vector2.Zero, viewportSize);
+            var zPosition = cam.GlobalTransform.origin.DistanceTo(this.GlobalTransform.origin);
+
+            labelPosition = cam.ProjectPosition(onScreenUnprojected, zPosition) - this.GlobalTransform.origin;
+            GD.Print("scaledVector=" + scaledVector + " (vector=" + this.vector + ")\nlabelUnprojected=" + labelUnprojected + "\nviewportSize=" + viewportSize + "\nlimitedVector2=" + onScreenUnprojected + "\nzPosition=" + zPosition + "\nreprojected=" + labelPosition + "\nglobal origin=" + this.GlobalTransform.origin + "\n-----");
         }
 
-        this.labelNode.Text = labelText;
-        this.labelNode.Transform = new Transform(new Quat(new Vector3(0, 1, 0), Mathf.Pi), scaledVector);
+		// Set label position (Label will appear backwards unless flipped on z axis)
+        this.labelNode.Transform = new Transform(new Quat(new Vector3(0, 1, 0), Mathf.Pi), labelPosition);
+    }
+
+    private Vector2 limitVector2(Vector2 value, Vector2 min, Vector2 max)
+    {
+        var x = value.x;
+        var y = value.y;
+
+        if (x < min.x)
+        {
+            x = min.x;
+        } else if (x > max.x)
+        {
+            x = max.x;
+        }
+
+        if (y < min.y)
+        {
+            y = min.y;
+        } else if (y > max.y)
+        {
+            y = max.y;
+        }
+
+        return new Vector2(x, y);
     }
 }
