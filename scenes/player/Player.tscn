@@ -22,6 +22,7 @@ contact_monitor = true
 script = ExtResource( 2 )
 
 [node name="DebugVector3" parent="Collision" instance=ExtResource( 4 )]
+layers = 2
 label = "Lift"
 
 [node name="CollisionShape" type="CollisionShape" parent="Collision"]
