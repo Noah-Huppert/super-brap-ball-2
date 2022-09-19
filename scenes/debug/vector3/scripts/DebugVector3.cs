@@ -170,11 +170,11 @@ public class DebugVector3 : ImmediateGeometry
 
         if (labelUnprojected.x < 0 || labelUnprojected.x > viewportSize.x || labelUnprojected.y < 0 || labelUnprojected.y > viewportSize.y)
         {
+			// If label would end up outside of camera viewport then reposition it to the edge of the viewport
             var onScreenUnprojected = this.limitVector2(labelUnprojected, Vector2.Zero, viewportSize);
             var zPosition = cam.GlobalTransform.origin.DistanceTo(this.GlobalTransform.origin);
 
             labelPosition = cam.ProjectPosition(onScreenUnprojected, zPosition) - this.GlobalTransform.origin;
-            GD.Print("scaledVector=" + scaledVector + " (vector=" + this.vector + ")\nlabelUnprojected=" + labelUnprojected + "\nviewportSize=" + viewportSize + "\nlimitedVector2=" + onScreenUnprojected + "\nzPosition=" + zPosition + "\nreprojected=" + labelPosition + "\nglobal origin=" + this.GlobalTransform.origin + "\n-----");
         }
 
 		// Set label position (Label will appear backwards unless flipped on z axis)

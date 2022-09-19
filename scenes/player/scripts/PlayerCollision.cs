@@ -82,12 +82,12 @@ public class PlayerCollision : RigidBody
             var dragDir = Vector3.Forward.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
             var drag = dragDir * dragMagnitude;
 
-            this.liftDebugVector.vector = lift;
+            this.liftDebugVector.vector = this.LinearVelocity;
             this.dragDebugVector.vector = drag;
             this.printer.Print("lift=" + lift);
             //GD.Print(lift + " - " + drag);
 
-            //this.AddCentralForce(lift);
+            this.AddCentralForce(lift);
 
             if (forwardStrength < 0)
             {
