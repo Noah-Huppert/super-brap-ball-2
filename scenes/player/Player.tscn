@@ -23,7 +23,6 @@ script = ExtResource( 2 )
 
 [node name="DebugVector3" parent="Collision" instance=ExtResource( 4 )]
 layers = 2
-label = "Lift"
 
 [node name="CollisionShape" type="CollisionShape" parent="Collision"]
 transform = Transform( 1, 0, 0, -1.77636e-15, 1, -2.98023e-08, 0, 2.98023e-08, 1, -1.77636e-15, -1.19209e-07, -2.98023e-08 )

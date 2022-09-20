@@ -33,6 +33,7 @@ public class PlayerCollision : RigidBody
 
 	private DebugVector3 liftDebugVector;
     private DebugVector3 dragDebugVector;
+    private DebugVector3 forceDebugVector;
 
     public override void _Ready()
     {
@@ -44,6 +45,9 @@ public class PlayerCollision : RigidBody
 		
         this.dragDebugVector = DebugVector3.AddNode(this, Vector3.Zero, "Drag");
         this.dragDebugVector.vectorScale = 0.25f;
+
+        this.forceDebugVector = DebugVector3.AddNode(this, Vector3.Zero, "Force");
+        this.forceDebugVector.vectorScale = 0.25f;
     }
 
     public override void _Process(float delta)
@@ -67,27 +71,23 @@ public class PlayerCollision : RigidBody
         if (this.ball.isOpen)
         {
             // Air movement
-            //this.Mode = ModeEnum.Kinematic;
             var liftCoefficient = ((this.Rotation.x * (180 / Mathf.Pi)) * 0.06f) + 0.4f;
 
-			// TODO: Should liftMagnitude and dragMagnitude use all velocity components?
-
-			// Note linear velocity represents "true air speed", change to account for wind when added to game
-            var liftMagnitude = liftCoefficient * WING_AREA * 0.5f * AIR_DENSITY * Mathf.Pow(this.LinearVelocity.z, 2);
-            // Lift is perpedicular to the flight path (https://www.grc.nasa.gov/www/k-12/airplane/glidvec.html)
+            // Note linear velocity represents "true air speed", change to account for wind when added to game
+            var liftMagnitude = liftCoefficient * WING_AREA * 0.5f * AIR_DENSITY * this.LinearVelocity.LengthSquared();
+            // Lift is perpendicular to the flight path (https://www.grc.nasa.gov/www/k-12/airplane/glidvec.html)
             var liftDir = new Vector3(0, 0, 1).Rotated(new Vector3(1, 0, 0), (-1 * (Mathf.Pi / 2)) + this.Rotation.x);
             var lift = liftDir * liftMagnitude;
 
-            var dragMagnitude = DRAG_COEFFICIENT * ((AIR_DENSITY * Mathf.Pow(this.LinearVelocity.z, 2)) / 2f) * WING_AREA;
+            var dragMagnitude = DRAG_COEFFICIENT * ((AIR_DENSITY * this.LinearVelocity.LengthSquared()) / 2f) * WING_AREA;
             var dragDir = Vector3.Forward.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
             var drag = dragDir * dragMagnitude;
 
-            this.liftDebugVector.vector = this.LinearVelocity;
+            this.liftDebugVector.vector = lift;
             this.dragDebugVector.vector = drag;
-            this.printer.Print("lift=" + lift);
-            //GD.Print(lift + " - " + drag);
-
-            this.AddCentralForce(lift);
+            
+            this.AddCentralForce(lift - drag);
+            this.forceDebugVector.vector = lift - drag;
 
             if (forwardStrength < 0)
             {
