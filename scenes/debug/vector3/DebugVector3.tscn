@@ -2,11 +2,11 @@
 
 [ext_resource path="res://scenes/debug/vector3/scripts/DebugVector3.cs" type="Script" id=1]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="StandardMaterial3D" id=3]
 vertex_color_use_as_albedo = true
 albedo_color = Color( 1, 0, 0, 1 )
 
-[node name="DebugVector3" type="ImmediateGeometry"]
+[node name="DebugVector3" type="ImmediateMesh"]
 material_override = SubResource( 3 )
 script = ExtResource( 1 )
 

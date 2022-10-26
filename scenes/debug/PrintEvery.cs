@@ -1,6 +1,6 @@
 using Godot;
 
-public class PrintEvery
+public partial class PrintEvery
 {
     private int lastPrint;
     private int every;

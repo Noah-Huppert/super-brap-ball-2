@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Ball : Spatial
+public partial class Ball : Node3D
 {
     // Animations on ball.
     private AnimationPlayer animationPlayer;

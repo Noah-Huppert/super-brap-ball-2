@@ -1,6 +1,6 @@
 using Godot;
 
-public class PlayerCollision : RigidBody
+public partial class PlayerCollision : RigidBody3D
 {
 	// How much user inputs should be multiplied before being added as forces.
     const float MOVEMENT_MULT = 300;
@@ -50,7 +50,7 @@ public class PlayerCollision : RigidBody
         this.forceDebugVector.vectorScale = 0.25f;
     }
 
-    public override void _Process(float delta)
+    public override void _Process(double delta)
     {
 		// Open ball
 		if (Input.IsActionPressed("open_ball") && this.floorCollisionNormal == null) {
@@ -60,7 +60,7 @@ public class PlayerCollision : RigidBody
         }
     }
 
-    public override void _PhysicsProcess(float delta)
+    public override void _PhysicsProcess(double delta)
     {
         this.Sleeping = false;
 
@@ -86,32 +86,32 @@ public class PlayerCollision : RigidBody
             this.liftDebugVector.vector = lift;
             this.dragDebugVector.vector = drag;
             
-            this.AddCentralForce(lift - drag);
+            this.AddConstantCentralForce(lift - drag);
             this.forceDebugVector.vector = lift - drag;
 
             if (forwardStrength < 0)
             {
-                this.RotateX(-1 * ANGLE_OF_ATTACK_CHANGE_AMOUNT * delta);
+                this.RotateX(-1 * ANGLE_OF_ATTACK_CHANGE_AMOUNT * (float)delta);
             } else if (forwardStrength > 0)
             {
-				this.RotateX(ANGLE_OF_ATTACK_CHANGE_AMOUNT * delta);
+				this.RotateX(ANGLE_OF_ATTACK_CHANGE_AMOUNT * (float)delta);
             }
         } else
         {
             // Ground movement
             //this.Mode = ModeEnum.Rigid;
 			
-            forwardStrength *= delta;
-            leftStrength *= delta;
+            forwardStrength *= (float)delta;
+            leftStrength *= (float)delta;
 
             forwardStrength *= MOVEMENT_MULT * this.Mass;
             leftStrength *= MOVEMENT_MULT * this.Mass;
 
-            this.AddCentralForce(new Vector3(leftStrength, 0, forwardStrength));
+            this.AddConstantCentralForce(new Vector3(leftStrength, 0, forwardStrength));
         }
     }
 
-    public override void _IntegrateForces(PhysicsDirectBodyState state)
+    public override void _IntegrateForces(PhysicsDirectBodyState3D state)
     {
         // Detect collision with floor
         if (state.GetContactCount() > 0)

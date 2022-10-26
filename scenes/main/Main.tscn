@@ -1,36 +1,33 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://cxg2238aq0cqr"]
 
-[ext_resource path="res://scenes/player/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/scenery/StartingArea.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/scenery/Scenery.tscn" type="PackedScene" id=3]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/scenery/StartingArea.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/scenery/Scenery.tscn" id="3"]
 
-[sub_resource type="ProceduralSky" id=1]
-sky_top_color = Color( 0.184314, 0.490196, 0.87451, 1 )
-ground_bottom_color = Color( 0.364706, 0.545098, 0.729412, 1 )
-ground_horizon_color = Color( 0.541176, 0.690196, 0.843137, 1 )
+[sub_resource type="Sky" id="1"]
 
-[sub_resource type="Environment" id=2]
+[sub_resource type="Environment" id="2"]
 background_mode = 2
-background_sky = SubResource( 1 )
-ambient_light_color = Color( 0.517647, 0.517647, 0.517647, 1 )
-ambient_light_energy = 1.31
+sky = SubResource("1")
+ambient_light_color = Color(0.517647, 0.517647, 0.517647, 1)
 ambient_light_sky_contribution = 0.0
+ambient_light_energy = 1.31
 tonemap_mode = 3
 tonemap_exposure = 1.51
 tonemap_white = 1.41
 
-[node name="Main" type="Spatial"]
+[node name="Main" type="Node3D"]
 
-[node name="Scenery" parent="." instance=ExtResource( 3 )]
+[node name="Scenery" parent="." instance=ExtResource("3")]
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 75.634, 0 )
+[node name="Player" parent="." instance=ExtResource("1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 75.634, 0)
 
-[node name="Starting Area" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 71.793, 0 )
+[node name="Starting Area3D" parent="." instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 71.793, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 2 )
+environment = SubResource("2")
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.87984, 74.102, 0 )
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.87984, 74.102, 0)

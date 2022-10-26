@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class DebugVector3 : ImmediateGeometry
+public partial class DebugVector3 : Node3D
 {
     // The label shown next to the vector.
     [Export]
@@ -83,12 +83,15 @@ public class DebugVector3 : ImmediateGeometry
     [Export]
     public float vectorScale = 1;
 
+    /// Used to draw triangles on the screen.
+    private ImmediateMesh mesh;
+
     // Create a DebugVector3 scene and add it as a child of the parent node.
     static public DebugVector3 AddNode(Node parent, Vector3 initVec, String label, bool ignoreParentRotation = true, bool includeValueInLabel = true)
     {
         var scene = ResourceLoader.Load<PackedScene>("res://scenes/debug/vector3/DebugVector3.tscn");
 		
-        var debugVector = scene.Instance<DebugVector3>();
+        var debugVector = scene.Instantiate<DebugVector3>();
         debugVector.vector = initVec;
         debugVector.label = label;
         debugVector.ignoreParentRotation = ignoreParentRotation;
@@ -105,7 +108,7 @@ public class DebugVector3 : ImmediateGeometry
         this.labelNode = GetNode<Label3D>("Label3D");
     }
 
-    public override void _Process(float delta)
+    public override void _Process(double delta)
     {
         // Maybe ignore rotation
         if (this.ignoreParentRotation)
@@ -116,25 +119,26 @@ public class DebugVector3 : ImmediateGeometry
         // Draw vector
         var scaledVector = this.vector * this.vectorScale;
 		
-        this.Clear();
-        this.Begin(Mesh.PrimitiveType.Lines);
+        this.mesh.ClearSurfaces();
+        this.mesh.SetTy
+        this.mesh.Begin(Mesh.PrimitiveType.Lines);
 
         // Draw body
-        this.SetColor(this.bodyColor);
+        this.mesh.SetColor(this.bodyColor);
 
-        this.AddVertex(new Vector3(0, 0, 0));
+        this.mesh.AddVertex(new Vector3(0, 0, 0));
 
         var body = scaledVector * 0.9f;
-        this.AddVertex(body);
+        this.mesh.AddVertex(body);
 
         // Draw arrow.
-        this.SetColor(this.arrowColor);
+        this.mesh.SetColor(this.arrowColor);
 
         var arrow = scaledVector * 0.1f;
-        this.AddVertex(body);
-        this.AddVertex(body + arrow);
+        this.mesh.AddVertex(body);
+        this.mesh.AddVertex(body + arrow);
 
-        this.End();
+        this.mesh.End();
 
         // Draw label
         var labelText = this.label;
@@ -162,7 +166,7 @@ public class DebugVector3 : ImmediateGeometry
 		this.labelNode.Text = labelText;
 
 		// Deal with label being off screen
-        var cam = GetViewport().GetCamera();
+        var cam = GetViewport().GetCamera3d();
 
         var labelPosition = scaledVector;
         var labelUnprojected = cam.UnprojectPosition(labelPosition + this.GlobalTransform.origin);
@@ -178,7 +182,7 @@ public class DebugVector3 : ImmediateGeometry
         }
 
 		// Set label position (Label will appear backwards unless flipped on z axis)
-        this.labelNode.Transform = new Transform(new Quat(new Vector3(0, 1, 0), Mathf.Pi), labelPosition);
+        this.labelNode.Transform3D = new Transform3D(new Quaternion(new Vector3(0, 1, 0), Mathf.Pi), labelPosition);
     }
 
     private Vector2 limitVector2(Vector2 value, Vector2 min, Vector2 max)

@@ -1,0 +1,5 @@
+C:\Users\conta\Documents\Games\super-brap-ball-2\.godot\mono\temp\obj\Debug\Super Brap Ball 2.csproj.AssemblyReference.cache
+C:\Users\conta\Documents\Games\super-brap-ball-2\.godot\mono\temp\obj\Debug\Super Brap Ball 2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\conta\Documents\Games\super-brap-ball-2\.godot\mono\temp\obj\Debug\Super Brap Ball 2.AssemblyInfoInputs.cache
+C:\Users\conta\Documents\Games\super-brap-ball-2\.godot\mono\temp\obj\Debug\Super Brap Ball 2.AssemblyInfo.cs
+C:\Users\conta\Documents\Games\super-brap-ball-2\.godot\mono\temp\obj\Debug\Super Brap Ball 2.csproj.CoreCompileInputs.cache

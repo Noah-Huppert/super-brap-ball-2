@@ -34,7 +34,7 @@ void light() {
 graph_offset = Vector2( -26.5888, 154.279 )
 nodes/fragment/2/node = SubResource( 1 )
 nodes/fragment/2/position = Vector2( 220, 180 )
-nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 2, 1, 0, 1 )
+nodes/fragment/connections = PackedInt32Array( 2, 0, 0, 0, 2, 1, 0, 1 )
 
 [resource]
 shader = SubResource( 2 )
