@@ -106,6 +106,7 @@ public partial class DebugVector3 : Node3D
     {
         this.initialGlobalRotation = this.GlobalRotation;
         this.labelNode = GetNode<Label3D>("Label3D");
+        this.mesh = new ImmediateMesh();
     }
 
     public override void _Process(double delta)
@@ -120,25 +121,24 @@ public partial class DebugVector3 : Node3D
         var scaledVector = this.vector * this.vectorScale;
 		
         this.mesh.ClearSurfaces();
-        this.mesh.SetTy
-        this.mesh.Begin(Mesh.PrimitiveType.Lines);
+        this.mesh.SurfaceBegin(Mesh.PrimitiveType.Lines);
 
         // Draw body
-        this.mesh.SetColor(this.bodyColor);
+        this.mesh.SurfaceSetColor(this.bodyColor);
 
-        this.mesh.AddVertex(new Vector3(0, 0, 0));
+        this.mesh.SurfaceAddVertex(new Vector3(0, 0, 0));
 
         var body = scaledVector * 0.9f;
-        this.mesh.AddVertex(body);
+        this.mesh.SurfaceAddVertex(body);
 
         // Draw arrow.
-        this.mesh.SetColor(this.arrowColor);
+        this.mesh.SurfaceSetColor(this.arrowColor);
 
         var arrow = scaledVector * 0.1f;
-        this.mesh.AddVertex(body);
-        this.mesh.AddVertex(body + arrow);
+        this.mesh.SurfaceAddVertex(body);
+        this.mesh.SurfaceAddVertex(body + arrow);
 
-        this.mesh.End();
+        this.mesh.SurfaceEnd();
 
         // Draw label
         var labelText = this.label;
@@ -169,7 +169,7 @@ public partial class DebugVector3 : Node3D
         var cam = GetViewport().GetCamera3d();
 
         var labelPosition = scaledVector;
-        var labelUnprojected = cam.UnprojectPosition(labelPosition + this.GlobalTransform.origin);
+     /*    var labelUnprojected = cam.UnprojectPosition(labelPosition + this.GlobalTransform.origin);
         var viewportSize = cam.GetViewport().Size;
 
         if (labelUnprojected.x < 0 || labelUnprojected.x > viewportSize.x || labelUnprojected.y < 0 || labelUnprojected.y > viewportSize.y)
@@ -180,9 +180,9 @@ public partial class DebugVector3 : Node3D
 
             labelPosition = cam.ProjectPosition(onScreenUnprojected, zPosition) - this.GlobalTransform.origin;
         }
-
+ */
 		// Set label position (Label will appear backwards unless flipped on z axis)
-        this.labelNode.Transform3D = new Transform3D(new Quaternion(new Vector3(0, 1, 0), Mathf.Pi), labelPosition);
+        this.labelNode.Transform = new Transform3D(new Quaternion(new Vector3(0, 1, 0), Mathf.Pi), labelPosition);
     }
 
     private Vector2 limitVector2(Vector2 value, Vector2 min, Vector2 max)
