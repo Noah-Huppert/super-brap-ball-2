@@ -1,16 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://dwfyp26843dmd"]
 
-[ext_resource path="res://scenes/scenery/assets/ocean/Baked Plane.png" type="Texture2D" id=2]
-
-[sub_resource type="PlaneMesh" id=1]
-
-[sub_resource type="StandardMaterial3D" id=2]
-albedo_texture = ExtResource( 2 )
-uv1_triplanar = true
+[ext_resource type="PackedScene" uid="uid://da3vwxdntihej" path="res://scenes/scenery/assets/ocean/ocean.tscn" id="1_xc8rn"]
 
 [node name="Scenery" type="Node3D"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D( 5000, 0, 0, 0, 1, 0, 0, 0, 5000, 0, 0, 0 )
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+[node name="ocean" parent="." instance=ExtResource("1_xc8rn")]
