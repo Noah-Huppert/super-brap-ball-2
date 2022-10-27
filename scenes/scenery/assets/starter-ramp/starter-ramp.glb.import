@@ -4,11 +4,13 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cux5mvw3atm8q"
-valid=false
+path="res://.godot/imported/starter-ramp.glb-32e127cb7d2e63cc6a5bc8d241d7794b.scn"
 
 [deps]
 
 source_file="res://scenes/scenery/assets/starter-ramp/starter-ramp.glb"
+dest_files=["res://.godot/imported/starter-ramp.glb-32e127cb7d2e63cc6a5bc8d241d7794b.scn"]
+
 [params]
 
 nodes/root_type="Spatial"

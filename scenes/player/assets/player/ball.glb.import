@@ -4,11 +4,13 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://3d5gva2s62mv"
-valid=false
+path="res://.godot/imported/ball.glb-ca9fe6be82d9157e818792d27191a818.scn"
 
 [deps]
 
 source_file="res://scenes/player/assets/player/ball.glb"
+dest_files=["res://.godot/imported/ball.glb-ca9fe6be82d9157e818792d27191a818.scn"]
+
 [params]
 
 nodes/root_type="Spatial"
