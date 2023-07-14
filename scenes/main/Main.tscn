@@ -1,15 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxg2238aq0cqr"]
+[gd_scene load_steps=7 format=3 uid="uid://cxg2238aq0cqr"]
 
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://de20cfudpo3gi" path="res://scenes/scenery/StartingArea.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://dwfyp26843dmd" path="res://scenes/scenery/Scenery.tscn" id="3"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cxqsw"]
+sky_top_color = Color(0.423529, 0.811765, 0.94902, 1)
+
 [sub_resource type="Sky" id="1"]
+sky_material = SubResource("ProceduralSkyMaterial_cxqsw")
 
 [sub_resource type="Environment" id="2"]
 background_mode = 2
 sky = SubResource("1")
-ambient_light_color = Color(0.517647, 0.517647, 0.517647, 1)
+ambient_light_color = Color(0.494118, 0.509804, 0.619608, 1)
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 1.31
 tonemap_mode = 3
