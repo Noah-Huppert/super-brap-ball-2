@@ -3,7 +3,7 @@ using Godot;
 public partial class PlayerCollision : RigidBody3D
 {
 	// How much user inputs should be multiplied before being added as forces.
-    const float MOVEMENT_MULT = 300;
+    const float MOVEMENT_MULT = 30;
 
     // Maximum lift coefficient. Characterization of wing efficiency, size, drag, ect.
 	// See ../assets/lift-coefficient-suggestions.pdf
