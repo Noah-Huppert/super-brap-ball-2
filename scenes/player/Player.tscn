@@ -3,7 +3,6 @@
 [ext_resource path="res://scenes/player/scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://scenes/player/scripts/PlayerCollision.cs" type="Script" id=2]
 [ext_resource path="res://scenes/player/assets/player/ball.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/debug/vector3/DebugVector3.tscn" type="PackedScene" id=4]
 
 [sub_resource type="PhysicsMaterial" id=3]
 
@@ -20,9 +19,6 @@ physics_material_override = SubResource( 3 )
 max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 2 )
-
-[node name="DebugVector3" parent="Collision" instance=ExtResource( 4 )]
-layers = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Collision"]
 transform = Transform3D( 1, 0, 0, -1.77636e-15, 1, -2.98023e-08, 0, 2.98023e-08, 1, -1.77636e-15, -1.19209e-07, -2.98023e-08 )

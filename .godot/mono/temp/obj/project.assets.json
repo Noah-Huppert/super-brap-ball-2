@@ -2,13 +2,13 @@
   "version": 3,
   "targets": {
     "net6.0": {
-      "Godot.SourceGenerators/4.0.0-beta.3": {
+      "Godot.SourceGenerators/4.1.0": {
         "type": "package",
         "build": {
           "build/Godot.SourceGenerators.props": {}
         }
       },
-      "GodotSharp/4.0.0-beta.3": {
+      "GodotSharp/4.1.0": {
         "type": "package",
         "compile": {
           "lib/net6.0/GodotSharp.dll": {
@@ -21,10 +21,10 @@
           }
         }
       },
-      "GodotSharpEditor/4.0.0-beta.3": {
+      "GodotSharpEditor/4.1.0": {
         "type": "package",
         "dependencies": {
-          "GodotSharp": "4.0.0-beta.3"
+          "GodotSharp": "4.1.0"
         },
         "compile": {
           "lib/net6.0/GodotSharpEditor.dll": {
@@ -40,37 +40,40 @@
     }
   },
   "libraries": {
-    "Godot.SourceGenerators/4.0.0-beta.3": {
-      "sha512": "TNjqXsSgWCov1Mh+VaqU1e5WM1T2Hne0VDz6SyJXUcdzck0PkfVV06/sGRTVjkd+//yAuU9eiCnW1k+zgzrwGA==",
+    "Godot.SourceGenerators/4.1.0": {
+      "sha512": "o15RG1qS++1TkRTaD6pfCDinUjmf4DdauT3syuUN2J0anZ8tcOdQqPTjK22FvFn1TY1bjBc5PRJ+BZo+8PnaGA==",
       "type": "package",
-      "path": "godot.sourcegenerators/4.0.0-beta.3",
+      "path": "godot.sourcegenerators/4.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "analyzers/dotnet/cs/Godot.SourceGenerators.dll",
         "build/Godot.SourceGenerators.props",
-        "godot.sourcegenerators.4.0.0-beta.3.nupkg.sha512",
+        "godot.sourcegenerators.4.1.0.nupkg.sha512",
         "godot.sourcegenerators.nuspec"
       ]
     },
-    "GodotSharp/4.0.0-beta.3": {
-      "sha512": "oRXbh9SWMxHexsL7d0KrzWBOUUX5O/XWkkMfyVbhLSB9hDEILORYCtqY/+pvaEFJ6x78GdtKJHgk5JhxjhjcnQ==",
+    "GodotSharp/4.1.0": {
+      "sha512": "V5Hed2RgqXWCtzQ9NwhohV4uK23unz2wPEUGc0zeYFVf00+OFF9nmrb2bbFiaRzdEMikMh8anXfzJPbmWyp+hw==",
       "type": "package",
-      "path": "godotsharp/4.0.0-beta.3",
+      "path": "godotsharp/4.1.0",
       "files": [
         ".nupkg.metadata",
-        "godotsharp.4.0.0-beta.3.nupkg.sha512",
+        ".signature.p7s",
+        "godotsharp.4.1.0.nupkg.sha512",
         "godotsharp.nuspec",
         "lib/net6.0/GodotSharp.dll",
         "lib/net6.0/GodotSharp.xml"
       ]
     },
-    "GodotSharpEditor/4.0.0-beta.3": {
-      "sha512": "fV2syzpwUA20VZPH1Q9iRTuSmgD6YozSaXAF5ox9O/ZP1Y7piAQW98RwdCNybLG27FtJFHRLmBJ7XcChM+x/JQ==",
+    "GodotSharpEditor/4.1.0": {
+      "sha512": "u00jFpDFBSht/Oiy6czbKSfk9r4R6HWfqxdjlsP3eua/DF7psuWae9eswlJxsOx7IOTZRWn1dgbCtage3R1UNQ==",
       "type": "package",
-      "path": "godotsharpeditor/4.0.0-beta.3",
+      "path": "godotsharpeditor/4.1.0",
       "files": [
         ".nupkg.metadata",
-        "godotsharpeditor.4.0.0-beta.3.nupkg.sha512",
+        ".signature.p7s",
+        "godotsharpeditor.4.1.0.nupkg.sha512",
         "godotsharpeditor.nuspec",
         "lib/net6.0/GodotSharpEditor.dll",
         "lib/net6.0/GodotSharpEditor.xml"
@@ -79,37 +82,30 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Godot.SourceGenerators >= 4.0.0-beta.3",
-      "GodotSharp >= 4.0.0-beta.3",
-      "GodotSharpEditor >= 4.0.0-beta.3"
+      "Godot.SourceGenerators >= 4.1.0",
+      "GodotSharp >= 4.1.0",
+      "GodotSharpEditor >= 4.1.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\conta\\.nuget\\packages\\": {},
-    "C:\\Users\\conta\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {}
+    "/home/noah/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\conta\\Documents\\Games\\super-brap-ball-2\\Super Brap Ball 2.csproj",
+      "projectUniqueName": "/home/noah/documents/games/super-brap-ball-2/Super Brap Ball 2.csproj",
       "projectName": "Super Brap Ball 2",
-      "projectPath": "c:\\Users\\conta\\Documents\\Games\\super-brap-ball-2\\Super Brap Ball 2.csproj",
-      "packagesPath": "C:\\Users\\conta\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\conta\\Documents\\Games\\super-brap-ball-2\\.godot\\mono\\temp\\obj\\",
+      "projectPath": "/home/noah/documents/games/super-brap-ball-2/Super Brap Ball 2.csproj",
+      "packagesPath": "/home/noah/.nuget/packages/",
+      "outputPath": "/home/noah/documents/games/super-brap-ball-2/.godot/mono/temp/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Users\\conta\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\conta\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Users\\conta\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/noah/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -130,15 +126,15 @@
         "dependencies": {
           "Godot.SourceGenerators": {
             "target": "Package",
-            "version": "[4.0.0-beta.3, )"
+            "version": "[4.1.0, )"
           },
           "GodotSharp": {
             "target": "Package",
-            "version": "[4.0.0-beta.3, )"
+            "version": "[4.1.0, )"
           },
           "GodotSharpEditor": {
             "target": "Package",
-            "version": "[4.0.0-beta.3, )"
+            "version": "[4.1.0, )"
           }
         },
         "imports": [
@@ -152,12 +148,22 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.14, 6.0.14]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.14, 6.0.14]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/opt/dotnet-sdk-bin-7.0/sdk/7.0.200/RuntimeIdentifierGraph.json"
       }
     }
   }

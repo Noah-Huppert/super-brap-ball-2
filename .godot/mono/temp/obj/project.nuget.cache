@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "n79QoqRsgmSE6xeh7I50XGyRHsr994Vox1cRQpcRI20n2rnNcMLW+E9aDqQUIdwegvhT9gM0uu2rbfi4cpKTPw==",
+  "dgSpecHash": "mLMi50zovOhXfkFz1v1Uzhvz7om4sSGMC3B9E0nN3p/sytgBex78ZYD3cYIdmk3gAdMImF6ZaL0SfCWXV7I2Hg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\conta\\Documents\\Games\\super-brap-ball-2\\Super Brap Ball 2.csproj",
+  "projectFilePath": "/home/noah/documents/games/super-brap-ball-2/Super Brap Ball 2.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\conta\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder\\godot.sourcegenerators\\4.0.0-beta.3\\godot.sourcegenerators.4.0.0-beta.3.nupkg.sha512",
-    "C:\\Users\\conta\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder\\godotsharp\\4.0.0-beta.3\\godotsharp.4.0.0-beta.3.nupkg.sha512",
-    "C:\\Users\\conta\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder\\godotsharpeditor\\4.0.0-beta.3\\godotsharpeditor.4.0.0-beta.3.nupkg.sha512"
+    "/home/noah/.nuget/packages/godot.sourcegenerators/4.1.0/godot.sourcegenerators.4.1.0.nupkg.sha512",
+    "/home/noah/.nuget/packages/godotsharp/4.1.0/godotsharp.4.1.0.nupkg.sha512",
+    "/home/noah/.nuget/packages/godotsharpeditor/4.1.0/godotsharpeditor.4.1.0.nupkg.sha512",
+    "/home/noah/.nuget/packages/microsoft.netcore.app.ref/6.0.14/microsoft.netcore.app.ref.6.0.14.nupkg.sha512",
+    "/home/noah/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.14/microsoft.aspnetcore.app.ref.6.0.14.nupkg.sha512"
   ],
   "logs": []
 }

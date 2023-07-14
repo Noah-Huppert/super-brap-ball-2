@@ -31,23 +31,10 @@ public partial class PlayerCollision : RigidBody3D
 
     private PrintEvery printer;
 
-	private DebugVector3 liftDebugVector;
-    private DebugVector3 dragDebugVector;
-    private DebugVector3 forceDebugVector;
-
     public override void _Ready()
     {
         this.ball = GetNode<Ball>("ball");
         this.printer = new PrintEvery(10);
-
-        this.liftDebugVector = DebugVector3.AddNode(this, Vector3.Zero, "Lift");
-        this.liftDebugVector.vectorScale = 0.25f;
-		
-        this.dragDebugVector = DebugVector3.AddNode(this, Vector3.Zero, "Drag");
-        this.dragDebugVector.vectorScale = 0.25f;
-
-        this.forceDebugVector = DebugVector3.AddNode(this, Vector3.Zero, "Force");
-        this.forceDebugVector.vectorScale = 0.25f;
     }
 
     public override void _Process(double delta)
@@ -71,23 +58,19 @@ public partial class PlayerCollision : RigidBody3D
         if (this.ball.isOpen)
         {
             // Air movement
-            var liftCoefficient = ((this.Rotation.x * (180 / Mathf.Pi)) * 0.06f) + 0.4f;
+            var liftCoefficient = ((this.Rotation.X * (180 / Mathf.Pi)) * 0.06f) + 0.4f;
 
             // Note linear velocity represents "true air speed", change to account for wind when added to game
             var liftMagnitude = liftCoefficient * WING_AREA * 0.5f * AIR_DENSITY * this.LinearVelocity.LengthSquared();
             // Lift is perpendicular to the flight path (https://www.grc.nasa.gov/www/k-12/airplane/glidvec.html)
-            var liftDir = new Vector3(0, 0, 1).Rotated(new Vector3(1, 0, 0), (-1 * (Mathf.Pi / 2)) + this.Rotation.x);
+            var liftDir = new Vector3(0, 0, 1).Rotated(new Vector3(1, 0, 0), (-1 * (Mathf.Pi / 2)) + this.Rotation.X);
             var lift = liftDir * liftMagnitude;
 
             var dragMagnitude = DRAG_COEFFICIENT * ((AIR_DENSITY * this.LinearVelocity.LengthSquared()) / 2f) * WING_AREA;
-            var dragDir = Vector3.Forward.Rotated(new Vector3(1, 0, 0), this.Rotation.x);
+            var dragDir = Vector3.Forward.Rotated(new Vector3(1, 0, 0), this.Rotation.X);
             var drag = dragDir * dragMagnitude;
-
-            this.liftDebugVector.vector = lift;
-            this.dragDebugVector.vector = drag;
             
             this.AddConstantCentralForce(lift - drag);
-            this.forceDebugVector.vector = lift - drag;
 
             if (forwardStrength < 0)
             {

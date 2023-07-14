@@ -21,7 +21,7 @@ public partial class Player : Node3D
 		this.collision = GetNode<PlayerCollision>("Collision");
         this.camera = GetNode<SpringArm3D>("SpringArm3D");
 		
-		this.initialCameraOffset = this.camera.Transform.origin;
+		this.initialCameraOffset = this.camera.Transform.Origin;
 
 		this.ball = GetNode<Ball>("Collision/ball");
     }
@@ -31,12 +31,12 @@ public partial class Player : Node3D
 	 {	
         // Move camera with player
         var cameraTransform = this.camera.Transform;
-		cameraTransform.origin = this.collision.Transform.origin + this.initialCameraOffset;
+		cameraTransform.Origin = this.collision.Transform.Origin + this.initialCameraOffset;
 
 		// Angle camera based on ground
 		if (this.collision.floorCollisionNormal != null)
 		{
-			var rotDiff = cameraTransform.basis.GetEuler().x - (Mathf.Abs(this.collision.floorCollisionNormal.Value.z) * -1);
+			var rotDiff = cameraTransform.Basis.GetEuler().X - (Mathf.Abs(this.collision.floorCollisionNormal.Value.Z) * -1);
 			var eased = (1 - Mathf.Pow(1 - rotDiff, 5)); // parabola easing
 			cameraTransform = cameraTransform.Rotated(new Vector3(1, 0, 0), eased * (float)delta);
 		}
