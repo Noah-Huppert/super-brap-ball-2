@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://de20cfudpo3gi"]
+[gd_scene load_steps=5 format=3 uid="uid://de20cfudpo3gi"]
 
 [ext_resource type="PackedScene" uid="uid://dqc3oyjn3fwvm" path="res://scenes/scenery/assets/starter-ramp/starter-ramp.tscn" id="1_hx55j"]
+[ext_resource type="Script" path="res://scenes/scenery/StartingArea.cs" id="1_nyqov"]
 
 [sub_resource type="BoxMesh" id="1"]
 size = Vector3(19.255, 0.144, 20)
@@ -9,6 +10,7 @@ size = Vector3(19.255, 0.144, 20)
 data = PackedVector3Array(-9.6275, 0.072, 10, 9.6275, 0.072, 10, -9.6275, -0.072, 10, 9.6275, 0.072, 10, 9.6275, -0.072, 10, -9.6275, -0.072, 10, 9.6275, 0.072, -10, -9.6275, 0.072, -10, 9.6275, -0.072, -10, -9.6275, 0.072, -10, -9.6275, -0.072, -10, 9.6275, -0.072, -10, 9.6275, 0.072, 10, 9.6275, 0.072, -10, 9.6275, -0.072, 10, 9.6275, 0.072, -10, 9.6275, -0.072, -10, 9.6275, -0.072, 10, -9.6275, 0.072, -10, -9.6275, 0.072, 10, -9.6275, -0.072, -10, -9.6275, 0.072, 10, -9.6275, -0.072, 10, -9.6275, -0.072, -10, 9.6275, 0.072, 10, -9.6275, 0.072, 10, 9.6275, 0.072, -10, -9.6275, 0.072, 10, -9.6275, 0.072, -10, 9.6275, 0.072, -10, -9.6275, -0.072, 10, 9.6275, -0.072, 10, -9.6275, -0.072, -10, 9.6275, -0.072, 10, 9.6275, -0.072, -10, -9.6275, -0.072, -10)
 
 [node name="Starting Area3D" type="Node3D"]
+script = ExtResource("1_nyqov")
 
 [node name="starter-ramp" parent="." instance=ExtResource("1_hx55j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -70.927, 45.524)

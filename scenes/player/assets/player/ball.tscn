@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://dibmghohobg4h"]
 
-[ext_resource path="res://scenes/player/assets/player/ball.glb" type="PackedScene" id=1]
-[ext_resource path="res://scenes/player/scripts/Ball.cs" type="Script" id=2]
+[ext_resource type="PackedScene" uid="uid://3d5gva2s62mv" path="res://scenes/player/assets/player/ball.glb" id="1"]
+[ext_resource type="Script" path="res://scenes/player/scripts/Ball.cs" id="2"]
 
-[node name="ball" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="ball" instance=ExtResource("1")]
+script = ExtResource("2")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/rotation = Quaternion(5.31218e-08, 1.04229e-07, -0.419184, 0.907901)
+bones/2/rotation = Quaternion(-1.31669e-07, 2.74352e-07, 0.419184, 0.907901)
