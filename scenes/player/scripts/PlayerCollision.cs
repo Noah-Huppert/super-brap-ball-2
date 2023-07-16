@@ -8,7 +8,8 @@ public partial class PlayerCollision : CharacterBody3D
     // The ball 3D model.
     private Ball ball;
 
-    //private KinematicCollision3D lastColl;
+    private float rotateLerpT = 0;
+    private Vector3 prevInput = Vector3.Zero;
 
     private PrintEvery printer;
 
@@ -21,10 +22,8 @@ public partial class PlayerCollision : CharacterBody3D
     public override void _Process(double delta)
     {
 		// Open ball
-		if (Input.IsActionPressed("open_ball") && this.floorCollisionNormal == null) {
+		if (Input.IsActionPressed("open_ball") && this.floorCollisionNormal == null && !this.ball.isOpen) {
 			this.ball.Open();
-            this.Rotation = Vector3.Zero;
-            //this.AngularVelocity = Vector3.Zero;
         }
     }
 
@@ -34,6 +33,8 @@ public partial class PlayerCollision : CharacterBody3D
 
 		var forwardStrength = Input.GetActionStrength("player_forward") - Input.GetActionStrength("player_backward");
 		var leftStrength = Input.GetActionStrength("player_left") - Input.GetActionStrength("player_right");
+
+        var currentInput = new Vector3(leftStrength, 0, forwardStrength);
 
         // Movement equations
         var vPrev = Velocity;
@@ -47,14 +48,28 @@ public partial class PlayerCollision : CharacterBody3D
         
         if (lastColl != null && lastColl.GetCollisionCount() > 0) {
             // When contacting
-            var collisionNormal = lastColl.GetNormal();
+            if (!this.ball.isOpen) {
+                // Rolling
 
-            // ... Slide on surfaces
-            accel += new Vector3(collisionNormal.X, collisionNormal.Y, collisionNormal.Z) * 100;
+                var impulseAccel = Vector3.Zero;
+                impulseAccel.Z = forwardStrength * 4;
+                impulseAccel.X = leftStrength;
+
+                accel += impulseAccel;
+            }
+        } else {
+            // Not contacting
+            floorCollisionNormal = null;
+
+            if (this.ball.isOpen) {
+                // Flying
+
+            } else {
+                // In free fall mode  
+            }
+
+
         }
-
-        // ... Scale acceleration for delta
-        accel *= 10;
 
         // Update new velocity
         var vNext = vPrev + (accel * (float)delta);
@@ -62,7 +77,9 @@ public partial class PlayerCollision : CharacterBody3D
 
         MoveAndSlide();
 
-        printer.Print("vNext=" + vNext);
+        printer.Print("accel=" + accel);
+
+        prevInput = currentInput;
     }
 
    /*  public override void _IntegrateForces(PhysicsDirectBodyState3D state)
